@@ -515,12 +515,20 @@ Matrix<T>::Matrix( const MatrixSize size ) : m_size( size )
 }
 
 template < typename T >
-Matrix<T>::Matrix( const Matrix<T>& m ) : m_size( m.size() )
+Matrix<T>::Matrix( const Matrix<T>& m ) // : m_size( m.size() )
 {
-    dat.resize( m.size().row * m.size().column );
+//    std::cout << m.size() << std::endl;
+//    std::cout << m << std::endl;
+
+    m_size = m.size();
+
+    dat.resize( m_size.row * m_size.column );
+    // TODO: make vector copy
     for( size_t i = 0; i < dat.size(); ++i ) {
         dat[i] = m.dat[i];
     }
+
+    delimiter = m.delimiter;
 }
 
 template < typename T >
@@ -532,7 +540,6 @@ Matrix<T> operator/ ( const Matrix<T>& m, const int num )
     }
     return result;
 }
-
 
 template < typename T >
 void Matrix<T>::setCell(const unsigned& row, const unsigned& column, const T& value)

@@ -42,16 +42,19 @@ void Layer::backward( Layer* prevLayer )
     // backward activation
     dZ = backwardActFunction( dA, Z );
 
-//     cout << "dZ" << endl << dZ << endl << endl;
-
     unsigned m = prevLayer->getOutput().size().column;
 
     dWeight = Matrix<double>::dot( dZ, prevLayer->getOutput().transpose() ) / m;
     dBias   = dZ.rowSum() / m;
     prevLayer->dA = Matrix<double>::dot( weight.transpose(), dZ );
+}
 
-//    cout << dWeight << endl
-//         << dBias << endl
-//         << prevLayer->dA << endl;
-
+/**
+ * @brief Layer::update updates the learning parameters weight and bias to converge error minimum
+ * @param learningRate rate of learning
+ */
+void Layer::update( const double& learningRate )
+{
+    weight = weight - ( learningRate * dWeight );
+    bias   = bias   - ( learningRate * dBias   );
 }

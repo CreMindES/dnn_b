@@ -41,7 +41,9 @@ class Layer
     inline void setdA( const Matrix<double>& m ) { dA = m; }
     inline Matrix<double> getdZ() const { return dZ; }
 
-  private:
+    void update( const double& learningRate );
+
+private:
     bool isFirst;
     unsigned neuronNum;
     function< double (const double&)> actFunction;

@@ -33,10 +33,11 @@ void NeuralNetwork::train(const Matrix<double>& input, const Matrix<double>& gro
     }
 
     for( unsigned i = 0; i < iterNumber; ++i ) {
-        // TODO: add regularization and dropout
+        // TODO: add  dropout
 
         feedForward( input );
         backPropagate( groundTruth );
+        update( learningRate );
 
         // TODO: early stopping
 
@@ -80,5 +81,13 @@ void NeuralNetwork::backPropagate( const Matrix<double>& groundTruth )
         Layer* prevLayer = layerVect.at(layerIndex-1);
 
         layer->backward( prevLayer );
+    }
+}
+
+void NeuralNetwork::update(const double& learningRate)
+{
+    for( size_t layerIndex = 1; layerIndex < layerVect.size(); ++layerIndex ) {
+        Layer* layer = layerVect.at( layerIndex );
+        layer->update( learningRate );
     }
 }
