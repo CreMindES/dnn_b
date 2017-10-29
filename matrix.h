@@ -89,15 +89,21 @@ public:
     {
         Matrix<T> result( m_size.row, m_size.column );
 
-        for( size_t row = 1; row <= m_size.row; ++row ) {
-            for( size_t column = 1; column <= m_size.column; ++column ) {
-                if( m_size == m.size() ) {
-                    // element wise addition
-                } else if( m.size().column == 1 ) {
-                // add column to all columns
-                    result.setCell( row, column, getCell( row, column ) + m.getCell( row, 1 ) );
+        if( m_size == m.size() ) {
+            // elementwise addition
+        } else if( m.size().row == 1 && m.size().column == m_size.column ) {
+            // add to every row by element
+        } else if( m.size().column == 1 && m.size().row == m_size.row ) {
+            // add to every column by element
+            for( size_t rowIndex = 0; rowIndex < m_size.row; ++rowIndex ) {
+                for( size_t columnIndex = 0; columnIndex < m_size.column; ++columnIndex ) {
+                    result.dat[ rowIndex * m_size.column + columnIndex ] = dat[ rowIndex * m_size.column + columnIndex ] + m.dat[ rowIndex ];
                 }
             }
+        } else {
+            // error
+            // TODO: throw error
+            return result;
         }
 
         return result;
