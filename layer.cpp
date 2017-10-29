@@ -24,9 +24,9 @@ Matrix<double> Layer::forward(const Matrix<double>& input)
 
     Z = Matrix<double>::dot( weight, input ) + bias;
     output = Z;
-    output.apply( actFunction, false );
+    output.apply( actFunction );
 
-    //         cout << "Z:" << end << Z << "output" << endl << output << endl;
+    // cout << "Z:" << end << Z << "output" << endl << output << endl;
 
     return output;
 }

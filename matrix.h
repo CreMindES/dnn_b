@@ -353,11 +353,11 @@ public:
         return result;
     }
 
-    void apply( std::function< double (const double&, const bool&)> functionToApply, bool param )
+    void apply( std::function< T (const T&)> functionToApply )
     {
         for( size_t row = 1; row <= m_size.row; ++row ) {
             for( size_t column = 1; column <= m_size.column; ++column ) {
-                setCell( row, column, functionToApply( getCell( row, column ), param ) );
+                setCell( row, column, functionToApply( getCell( row, column ) ) );
             }
         }
     }
@@ -373,7 +373,7 @@ public:
         }
     }
 
-    const Matrix<T> transpose()
+    const Matrix<T> transpose() const
     {
         Matrix<T> result( m_size.column, m_size.row );
 
@@ -381,6 +381,17 @@ public:
            for( unsigned j = 1; j <= m_size.column; j++ ) {
              result.setCell( j, i, getCell( i, j ) );
            }
+        }
+
+        return result;
+    }
+
+    Matrix<T> nonNegative() const
+    {
+        Matrix<T> result( m_size );
+
+        for( size_t i = 0; i < dat.size(); ++i ) {
+            result.dat[i] = dat[i] >= 0 ? dat[i] : 0;
         }
 
         return result;
@@ -398,6 +409,18 @@ public:
     }
 
     Matrix<T> operator/ ( const int num ) const
+    {
+        Matrix<T> result( m_size );
+
+        for( size_t i = 0; i < dat.size(); ++i ) {
+            result.dat[i] = dat[i] / num;
+        }
+
+        return result;
+    }
+
+
+    Matrix<T> operator/ ( const unsigned num ) const
     {
         Matrix<T> result( m_size );
 
@@ -442,6 +465,14 @@ public:
     }
 
     friend Matrix<T> operator* ( const int num, const Matrix<T>& m ) {
+        Matrix<T> result( m.m_size );
+        for( size_t i = 0; i < m.dat.size(); ++i ) {
+            result.dat[i] = num * m.dat[i];
+        }
+        return result;
+    }
+
+    friend Matrix<T> operator* ( const double num, const Matrix<T>& m ) {
         Matrix<T> result( m.m_size );
         for( size_t i = 0; i < m.dat.size(); ++i ) {
             result.dat[i] = num * m.dat[i];

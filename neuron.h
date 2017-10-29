@@ -8,23 +8,37 @@
 
 #include <math.h>
 
+#include "matrix.h"
+
+#define UNUSED(expr) do { (void)(expr); } while (0)
+
 class Neuron
 {
   public:
 
-    static inline double sigmoid( double x, const bool deriv = false )
+    static inline double sigmoid( double x )
     {
-        if( deriv ) return exp(-x) / ( (1+exp(-x)) * (1+exp(-x)) );
-        else return 1 / ( 1 + exp(-x) );
+        return 1 / ( 1 + exp(-x) );
     }
 
-    static inline double relu( double x, const bool deriv = false ) {
-        if ( deriv ) return x > 0 ? 1 : 0;
-        else return x > 0 ? x : 0;
+    static inline Matrix<double> sigmoidBackward( const Matrix<double>& dA, const Matrix<double>& Z )
+    {
+        Matrix<double> s = 1 / ( ( -1 * Z ).exp() + 1);
+        Matrix<double> dZ = dA * s * (1-s);
+
+        return dZ;
     }
 
-    static inline double dummy( double x, const bool deriv = false ) {
-        return deriv ? x : x;
+    static inline double relu( double x ) {
+        return x > 0 ? x : 0;
+    }
+
+    static inline Matrix<double> reluBackward( const Matrix<double>& dA, const Matrix<double>& Z ) { UNUSED(dA);
+        return Z.nonNegative();
+    }
+
+    static inline double dummy( double x ) {
+        return x;
     }
 
   private:

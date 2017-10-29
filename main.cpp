@@ -31,9 +31,9 @@ int main()
     // create a new NN
     NeuralNetwork* myNetwork = new NeuralNetwork();
     // set up topology
-    myNetwork->addLayer( new Layer( 3, Neuron::dummy ) );
-    myNetwork->addLayer( new Layer( 6, Neuron::sigmoid ) );
-    myNetwork->addLayer( new Layer( 1, Neuron::relu ) );
+    myNetwork->addLayer( new Layer( 3, Neuron::dummy, nullptr ) );
+    myNetwork->addLayer( new Layer( 6, Neuron::sigmoid, Neuron::sigmoidBackward ) );
+    myNetwork->addLayer( new Layer( 1, Neuron::relu, Neuron::reluBackward ) );
     // train
     myNetwork->train( input, output, 0.7, 1 );
 

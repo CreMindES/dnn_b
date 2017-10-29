@@ -17,10 +17,12 @@ using namespace std;
 class Layer
 {
   public:
-    Layer( const uint32_t neuronNumber, function< double (const double&, const bool&)> activationFunction ) :
+    Layer( const uint32_t neuronNumber, function< double (const double&)> activationFunction,
+           function< Matrix<double> (const Matrix<double>&, const Matrix<double>&)> backwardActivationFunction ) :
         isFirst( false ),
         neuronNum( neuronNumber ),
-        actFunction( activationFunction )
+        actFunction( activationFunction ),
+        backwardActFunction( backwardActivationFunction )
     {
 
     }
@@ -32,7 +34,7 @@ class Layer
     void backward( Layer* nextLayer = nullptr, Matrix<double> dZ = Matrix<double>() );
 
     size_t inline getNeuronCount() const { return neuronNum; }
-    function< double (const double&, const bool&)> getActFunction() const { return actFunction; }
+    function< double (const double&)> getActFunction() const { return actFunction; }
     inline Matrix<double>& getOutput() { return output; }
 
     inline Matrix<double> getdA() const { return dA; }
@@ -42,7 +44,8 @@ class Layer
   private:
     bool isFirst;
     unsigned neuronNum;
-    function< double (const double&, const bool&)> actFunction;
+    function< double (const double&)> actFunction;
+    function< Matrix<double> (const Matrix<double>&, Matrix<double>&)> backwardActFunction;
 
     Matrix<double> weight;
     Matrix<double> bias;
