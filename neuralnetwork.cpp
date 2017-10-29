@@ -40,7 +40,8 @@ void NeuralNetwork::train(const Matrix<double>& input, const Matrix<double>& gro
         update( learningRate );
 
         // report cost function periodically
-        if( i % static_cast<unsigned>(iterNumber/10) == 0 ) {
+        unsigned period = iterNumber > 10 ? static_cast<unsigned>(iterNumber/10) : 1;
+        if( i % period == 0 ) {
             double cost = calcCost( layerVect.back()->getOutput(), groundTruth );
             cout << "Iter: " << i << " | Cost: " << cost << endl;
         }
