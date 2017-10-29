@@ -73,17 +73,12 @@ void NeuralNetwork::backPropagate( const Matrix<double>& groundTruth )
     // do backprop part 1 manually for last layer
     // derivative of cost with respect to last layer's output
     lastLayer->setdA( -1 * ( ( groundTruth / lastLayer->getOutput() ) - ((1 - groundTruth) / (1 - lastLayer->getOutput() )) ) );
-    // backward activation
 
-    // back propagation for the remaining layers
-    for( int layerIndex = layerVect.size()-1; layerIndex >= 0; --layerIndex ) {
-        // calculate layer error
+    // back propagation
+    for( size_t layerIndex = layerVect.size()-1; layerIndex > 0; --layerIndex ) {
         Layer* layer     = layerVect.at(layerIndex);
-        Layer* nextLayer = nullptr;
-        if( layerIndex != layerVect.size() - 1 ) {
-            nextLayer = layerVect.at(layerIndex+1);
-        }
+        Layer* prevLayer = layerVect.at(layerIndex-1);
 
-        layer->backward( nextLayer );
+        layer->backward( prevLayer );
     }
 }

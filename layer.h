@@ -31,7 +31,7 @@ class Layer
     void init( const unsigned& inputDim, const unsigned& outputDim );
 
     Matrix<double> forward( const Matrix<double>& input );
-    void backward( Layer* nextLayer = nullptr, Matrix<double> dZ = Matrix<double>() );
+    void backward( Layer* nextLayer = nullptr );
 
     size_t inline getNeuronCount() const { return neuronNum; }
     function< double (const double&)> getActFunction() const { return actFunction; }

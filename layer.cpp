@@ -31,16 +31,27 @@ Matrix<double> Layer::forward(const Matrix<double>& input)
     return output;
 }
 
-void Layer::backward(Layer* nextLayer, Matrix<double> dZ)
+void Layer::backward( Layer* prevLayer )
 {
-    if( nextLayer != nullptr ) {  // not last layer
+    // TODO: add regularization
+
+    if( dA.size().row == 0 ) {  // not last layer
         //  derivative of cost with respect to layer's output
-        dA = -1 * ( ( nextLayer->getOutput() / this->getOutput() ) - ((1 - nextLayer->getOutput()) / (1 - this->getOutput() )) );
+        dA = -1 * ( ( prevLayer->getOutput() / this->getOutput() ) - ((1 - prevLayer->getOutput()) / (1 - this->getOutput() )) );
     }
     // backward activation
-    dZ = dA;  // deep copy
-    dZ.apply( actFunction, true );
+    dZ = backwardActFunction( dA, Z );
 
-    dWeight = Matrix<double>::dot( dZ, nextLayer->getOutput().transpose() ) / ((int)nextLayer->getOutput().size().row * -1);
-    // dBias   =
+//     cout << "dZ" << endl << dZ << endl << endl;
+
+    unsigned m = prevLayer->getOutput().size().column;
+
+    dWeight = Matrix<double>::dot( dZ, prevLayer->getOutput().transpose() ) / m;
+    dBias   = dZ.rowSum() / m;
+    prevLayer->dA = Matrix<double>::dot( weight.transpose(), dZ );
+
+//    cout << dWeight << endl
+//         << dBias << endl
+//         << prevLayer->dA << endl;
+
 }

@@ -26,12 +26,12 @@ class NeuralNetwork
 public:
     NeuralNetwork();
     void addLayer( Layer* layer );
-    void train(const Matrix<double>& input, const Matrix<double>& groundTruth, const double& learningRate, const unsigned& iterNumber);
+    void train(const Matrix<double>& input, const Matrix<double>& groundTruth, const double& learningRate = 0.1, const unsigned& iterNumber = 100);
     vector<double> predict( const vector<double>& inputVect );
 
 private:
     Matrix<double> feedForward( const Matrix<double>& input );
-    void backPropagate(const Matrix<double>& groundTruth );
+    void backPropagate( const Matrix<double>& groundTruth );
 
 private:
     std::vector< Layer* > layerVect;
