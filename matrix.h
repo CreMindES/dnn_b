@@ -215,6 +215,17 @@ public:
      */
     std::string getDelimiter() const { return delimiter; }
 
+    friend Matrix<T> operator/ ( const T num, const Matrix<T> m )
+    {
+        Matrix<T> result( m.m_size );
+
+        for( size_t i = 0; i < m.dat.size(); ++i ) {
+            result.dat[i] = num / m.dat[i];
+        }
+
+        return result;
+    }
+
     /**
      * @brief operator ==
      * @param m1 matrix 1
