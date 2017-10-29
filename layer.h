@@ -7,6 +7,7 @@
 #define LAYER_H
 
 #include <functional>
+#include <string>
 #include <vector>
 
 #include "neuron.h"
@@ -18,11 +19,12 @@ class Layer
 {
   public:
     Layer( const uint32_t neuronNumber, function< double (const double&)> activationFunction,
-           function< Matrix<double> (const Matrix<double>&, const Matrix<double>&)> backwardActivationFunction ) :
+           function< Matrix<double> (const Matrix<double>&, const Matrix<double>&)> backwardActivationFunction, const string& name = "" ) :
         isFirst( false ),
         neuronNum( neuronNumber ),
         actFunction( activationFunction ),
-        backwardActFunction( backwardActivationFunction )
+        backwardActFunction( backwardActivationFunction ),
+        m_name( name )
     {
 
     }
@@ -48,6 +50,7 @@ private:
     unsigned neuronNum;
     function< double (const double&)> actFunction;
     function< Matrix<double> (const Matrix<double>&, Matrix<double>&)> backwardActFunction;
+    string m_name;
 
     Matrix<double> weight;
     Matrix<double> bias;

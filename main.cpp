@@ -31,11 +31,12 @@ int main()
     // create a new NN
     NeuralNetwork* myNetwork = new NeuralNetwork();
     // set up topology
-    myNetwork->addLayer( new Layer( 3, Neuron::dummy, nullptr ) );
-    myNetwork->addLayer( new Layer( 6, Neuron::sigmoid, Neuron::sigmoidBackward ) );
-    myNetwork->addLayer( new Layer( 1, Neuron::relu, Neuron::reluBackward ) );
+    myNetwork->addLayer( new Layer( 3, Neuron::dummy, nullptr, "input" ) );
+    myNetwork->addLayer( new Layer( 3, Neuron::relu, Neuron::reluBackward, "hidden" ) );
+    myNetwork->addLayer( new Layer( 3, Neuron::relu, Neuron::reluBackward, "hidden" ) );
+    myNetwork->addLayer( new Layer( 1, Neuron::sigmoid, Neuron::sigmoidBackward, "output" ) );
     // train
-    myNetwork->train( input, output, 0.7, 1 );
+    myNetwork->train( input, output, 0.01, 300 );
 
     // predict
     // myNetwork->predict( inputTest )
