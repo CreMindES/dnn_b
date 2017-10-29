@@ -35,8 +35,9 @@ private:
     void update( const double& learningRate );
     double calcCost(const Matrix<double>& output, const Matrix<double>& groundTruth );
 
-private:
     std::vector< Layer* > layerVect;
+
+    friend class Test;
 };
 
 #endif // NEURALNETWORK_H

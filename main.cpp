@@ -13,10 +13,15 @@
 #include "neuralnetwork.h"
 #include "neuron.h"
 
+#include "test.h"
+
 using namespace std;
 
 int main()
 {
+//    run_tests();
+//    return 0;
+
     // example input
     Matrix<double> input( 3, 4 );
     input.setColumn( 1, vector<double>{ 0, 0, 1 } );
@@ -32,11 +37,11 @@ int main()
     NeuralNetwork* myNetwork = new NeuralNetwork();
     // set up topology
     myNetwork->addLayer( new Layer( 3, Neuron::dummy, nullptr, "input" ) );
-    myNetwork->addLayer( new Layer( 3, Neuron::relu, Neuron::reluBackward, "hidden" ) );
-    myNetwork->addLayer( new Layer( 3, Neuron::relu, Neuron::reluBackward, "hidden" ) );
+    // myNetwork->addLayer( new Layer( 3, Neuron::relu, Neuron::reluBackward, "hidden" ) );
+    myNetwork->addLayer( new Layer( 3, Neuron::sigmoid, Neuron::sigmoidBackward, "hidden" ) );
     myNetwork->addLayer( new Layer( 1, Neuron::sigmoid, Neuron::sigmoidBackward, "output" ) );
     // train
-    myNetwork->train( input, output, 0.01, 300 );
+    myNetwork->train( input, output, 0.01, 30000 );
 
     // predict
     // myNetwork->predict( inputTest )

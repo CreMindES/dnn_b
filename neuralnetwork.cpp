@@ -10,7 +10,7 @@ NeuralNetwork::NeuralNetwork()
 
 }
 
-void NeuralNetwork::addLayer(Layer* layer)
+void NeuralNetwork::addLayer( Layer* layer )
 {
     if( layer == nullptr ) { return; }
     if( layerVect.size() == 0 ) { layer->setFirst(); }
@@ -18,7 +18,8 @@ void NeuralNetwork::addLayer(Layer* layer)
     layerVect.push_back( layer );
 }
 
-void NeuralNetwork::train(const Matrix<double>& input, const Matrix<double>& groundTruth, const double& learningRate, const unsigned& iterNumber )
+void NeuralNetwork::train( const Matrix<double>& input, const Matrix<double>& groundTruth,
+                           const double& learningRate, const unsigned& iterNumber )
 {
 #ifdef DEBUG
     cout << "input:" << endl << input << endl
@@ -32,7 +33,7 @@ void NeuralNetwork::train(const Matrix<double>& input, const Matrix<double>& gro
         layer->init( layer->getNeuronCount(), prevLayer->getNeuronCount() );
     }
 
-    for( unsigned i = 0; i < iterNumber; ++i ) {
+    for( unsigned i = 1; i <= iterNumber; ++i ) {
         // TODO: add  dropout
 
         feedForward( input );
@@ -82,7 +83,8 @@ void NeuralNetwork::backPropagate( const Matrix<double>& groundTruth )
 
     // do backprop part 1 manually for last layer
     // derivative of cost with respect to last layer's output
-    lastLayer->setdA( -1 * ( ( groundTruth / lastLayer->getOutput() ) - ((1 - groundTruth) / (1 - lastLayer->getOutput() )) ) );
+    lastLayer->setdA( -1 * ( ( groundTruth / lastLayer->getOutput() ) -
+                             ((1 - groundTruth) / (1 - lastLayer->getOutput() )) ) );
 
     // back propagation
     for( size_t layerIndex = layerVect.size()-1; layerIndex > 0; --layerIndex ) {
@@ -101,8 +103,7 @@ void NeuralNetwork::update(const double& learningRate)
     }
 }
 
-double NeuralNetwork::calcCost( const Matrix<double>& output, const
-                            Matrix<double>& groundTruth )
+double NeuralNetwork::calcCost( const Matrix<double>& output, const Matrix<double>& groundTruth )
 {
     double m = output.size().column;
     return (-1 / m) * ( groundTruth * output.log() + ((1 - groundTruth) * ((1 - output).log())) ).rowSum().toDouble();

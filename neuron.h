@@ -48,6 +48,9 @@ class Neuron
         return result;
     }
 
+    // for education and code cleanness purposes, the first layer more or less
+    // is just like any other layer, except it is a pass through one without any
+    // custom activation going on inside
     static inline double dummy( double x ) {
         return x;
     }

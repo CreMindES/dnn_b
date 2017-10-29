@@ -45,6 +45,8 @@ class Layer
 
     void update( const double& learningRate );
 
+    friend class Test;
+
 private:
     bool isFirst;
     unsigned neuronNum;
@@ -57,7 +59,7 @@ private:
 
     Matrix<double> input;
     Matrix<double> Z;
-    Matrix<double> output;
+    Matrix<double> output;  // usually called A
 
     Matrix<double> dA;
     Matrix<double> dZ;

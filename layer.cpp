@@ -8,7 +8,7 @@
 void Layer::init(const unsigned& inputDim, const unsigned& outputDim)
 {
     weight.resize( inputDim, outputDim );
-    weight.fill( 0.01, 0.005 );
+    weight.fill( 0, 20 );
 
     bias.resize( inputDim, 1 );
     bias.fill( 0 );
@@ -30,7 +30,7 @@ Matrix<double> Layer::forward(const Matrix<double>& input)
     output = Z;
     output.apply( actFunction );
 
-    // cout << "Z:" << end << Z << "output" << endl << output << endl;
+    // cout << "Z:" << endl << Z << "output" << endl << output << endl;
 
     return output;
 }
@@ -39,10 +39,6 @@ void Layer::backward( Layer* prevLayer )
 {
     // TODO: add regularization
 
-    if( dA.size().row == 0 ) {  // not last layer
-        //  derivative of cost with respect to layer's output
-        dA = -1 * ( ( prevLayer->getOutput() / this->getOutput() ) - ((1 - prevLayer->getOutput()) / (1 - this->getOutput() )) );
-    }
     // backward activation
     dZ = backwardActFunction( dA, Z );
 
