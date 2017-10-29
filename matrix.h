@@ -171,6 +171,11 @@ public:
      */
     inline unsigned getColumnSize() const { return m_size.column; }
 
+    Matrix<T> rowSum() const;
+
+    T rowSum( unsigned row ) const;
+
+
     /**
      * @brief appends \a row number rows and \a column number columns
      * to the matrix
@@ -548,6 +553,32 @@ std::vector<T> Matrix<T>::getColumn(const unsigned& column) const
     }
 
     return res;
+}
+
+template < typename T >
+Matrix<T> Matrix<T>::rowSum() const
+{
+    Matrix<T> result( m_size.row, 1 );
+
+    for( size_t rowIndex = 1; rowIndex <= m_size.row; ++rowIndex ) {
+        for( size_t columnIndex = 1; columnIndex <= m_size.column; ++columnIndex ) {
+            result.dat[rowIndex-1] += dat[ (rowIndex-1) * m_size.column + columnIndex-1 ];
+        }
+    }
+
+    return result;
+}
+
+template < typename T >
+T Matrix<T>::rowSum( unsigned row ) const
+{
+    T result = 0.0;
+
+    for( size_t columnIndex = 1; columnIndex <= m_size.column; ++columnIndex ) {
+        result += dat[ (row-1) * m_size.column + columnIndex-1 ];
+    }
+
+    return result;
 }
 
 template < typename T >
