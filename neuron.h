@@ -33,8 +33,19 @@ class Neuron
         return x > 0 ? x : 0;
     }
 
-    static inline Matrix<double> reluBackward( const Matrix<double>& dA, const Matrix<double>& Z ) { UNUSED(dA);
-        return Z.nonNegative();
+    static inline Matrix<double> reluBackward( const Matrix<double>& dA, const Matrix<double>& Z ) {
+        UNUSED(dA);
+        Matrix<double> result( dA );
+
+        for( size_t rowIndex = 1; rowIndex <= dA.size().row; ++rowIndex ) {
+            for( size_t columnIndex = 1; columnIndex <= dA.size().column; ++columnIndex ) {
+                if( Z.getCell( rowIndex, columnIndex ) < 0.0 ) {
+                    result.setCell( rowIndex, columnIndex, 0 );
+                }
+            }
+        }
+
+        return result;
     }
 
     static inline double dummy( double x ) {
