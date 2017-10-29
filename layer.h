@@ -30,11 +30,6 @@ class Layer
     }
 
     void setFirst() { isFirst = true; }
-    /**
-     * @brief Layer::init initializez weights and bias vector of the layer
-     * @param inputDim
-     * @param outputDim
-     */
     void init( const unsigned& inputDim, const unsigned& outputDim );
 
     Matrix<double> forward( const Matrix<double>& input );
