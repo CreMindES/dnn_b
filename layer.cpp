@@ -20,7 +20,11 @@ Matrix<double> Layer::forward(const Matrix<double>& input)
 {
     this->input = input;
 
-    if( isFirst ) { return input; } // TODO
+    if( isFirst ) {
+        Z      = input;
+        output = input;
+        return input;
+    } // TODO
 
     Z = Matrix<double>::dot( weight, input ) + bias;
     output = Z;
