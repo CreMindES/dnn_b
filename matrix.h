@@ -375,6 +375,17 @@ public:
         return result;
     }
 
+    Matrix<T> operator* ( const Matrix<T> m ) const
+    {
+        Matrix<T> result( m_size );
+
+        for( size_t i = 0; i < dat.size(); ++i ) {
+            result.dat[i] = dat[i] * m.dat[i];
+        }
+
+        return result;
+    }
+
     Matrix<T> operator/ ( const int num ) const
     {
         Matrix<T> result( m_size );
