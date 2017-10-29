@@ -10,7 +10,7 @@ void Layer::init(const unsigned& inputDim, const unsigned& outputDim)
     weight.resize( inputDim, outputDim );
     weight.fill( 0.01, 0.005 );
 
-    bias.resize( outputDim, 1 );
+    bias.resize( inputDim, 1 );
     bias.fill( 0 );
 
     // cout << "weight" << endl << weight << endl;
