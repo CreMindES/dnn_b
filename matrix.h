@@ -186,7 +186,11 @@ public:
 
     T rowSum( unsigned row ) const;
 
-    Matrix<T> exp();
+    Matrix<T> exp() const;
+
+    Matrix<T> log() const;
+
+    double toDouble() const;
 
 
     /**
@@ -655,7 +659,7 @@ T Matrix<T>::rowSum( unsigned row ) const
 }
 
 template<typename T>
-Matrix<T> Matrix<T>::exp()
+Matrix<T> Matrix<T>::exp() const
 {
     Matrix<T> result( m_size );
 
@@ -664,6 +668,28 @@ Matrix<T> Matrix<T>::exp()
     }
 
     return result;
+}
+
+template< typename T >
+Matrix<T> Matrix<T>::log() const
+{
+    Matrix<T> result( m_size );
+
+    for( size_t i = 0; i < dat.size(); ++i ) {
+        result.dat[i] = ::log( dat[i] );
+    }
+
+    return result;
+}
+
+template<typename T>
+double Matrix<T>::toDouble() const
+{
+    if( m_size.row == 1 && m_size.column == 1 ){
+        return dat[1];
+    } else {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
 }
 
 template < typename T >

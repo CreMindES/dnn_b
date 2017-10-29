@@ -39,11 +39,19 @@ void NeuralNetwork::train(const Matrix<double>& input, const Matrix<double>& gro
         backPropagate( groundTruth );
         update( learningRate );
 
+        // report cost function periodically
+        if( i % static_cast<unsigned>(iterNumber/10) == 0 ) {
+            double cost = calcCost( layerVect.back()->getOutput(), groundTruth );
+            cout << "Iter: " << i << " | Cost: " << cost << endl;
+        }
+
         // TODO: early stopping
-
-        // TODO: update weights <- learning rate
-
     }
+
+    cout << endl << "last output:" << layerVect.back()->getOutput() << endl;
+
+    cout << endl << "Done" << endl;
+
 }
 
 Matrix<double> NeuralNetwork::feedForward( const Matrix<double>& input )
@@ -59,7 +67,7 @@ Matrix<double> NeuralNetwork::feedForward( const Matrix<double>& input )
     // TODO: possibly this can be transformed into tail recursive call
     for( size_t layerIndex = 1; layerIndex < layerVect.size(); ++layerIndex ) {
         result = layerVect.at(layerIndex)->forward( result );
-        cout << "result" << endl << result << endl;
+        // cout << "result" << endl << result << endl;
     }
 
     return( result );
@@ -90,4 +98,11 @@ void NeuralNetwork::update(const double& learningRate)
         Layer* layer = layerVect.at( layerIndex );
         layer->update( learningRate );
     }
+}
+
+double NeuralNetwork::calcCost( const Matrix<double>& output, const
+                            Matrix<double>& groundTruth )
+{
+    double m = output.size().column;
+    return (-1 / m) * ( groundTruth * output.log() + ((1 - groundTruth) * ((1 - output).log())) ).rowSum().toDouble();
 }

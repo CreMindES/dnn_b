@@ -33,6 +33,7 @@ private:
     Matrix<double> feedForward( const Matrix<double>& input );
     void backPropagate( const Matrix<double>& groundTruth );
     void update( const double& learningRate );
+    double calcCost(const Matrix<double>& output, const Matrix<double>& groundTruth );
 
 private:
     std::vector< Layer* > layerVect;
