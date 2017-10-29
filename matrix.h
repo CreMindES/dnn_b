@@ -51,11 +51,11 @@ public:
             return out << size.row << "x" << size.column;
         }
 
-        bool operator==( MatrixSize otherSize ) {
+        bool operator==( const MatrixSize& otherSize ) const {
             return row == otherSize.row && column == otherSize.column;
         }
 
-        bool operator!=( MatrixSize otherSize ) {
+        bool operator!=( const MatrixSize& otherSize ) const {
             return row != otherSize.row || column != otherSize.column;
         }
     } MatrixSize;
@@ -100,7 +100,7 @@ public:
     {
         Matrix<T> result( m_size.row, m_size.column );
 
-        if( m_size == m.size() ) {
+        if( m_size == m.m_size ) {
             // elementwise addition
         } else if( m.size().row == 1 && m.size().column == m_size.column ) {
             // add to every row by element
