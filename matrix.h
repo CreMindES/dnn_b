@@ -186,6 +186,8 @@ public:
 
     T rowSum( unsigned row ) const;
 
+    Matrix<T> exp();
+
 
     /**
      * @brief appends \a row number rows and \a column number columns
@@ -587,6 +589,18 @@ T Matrix<T>::rowSum( unsigned row ) const
 
     for( size_t columnIndex = 1; columnIndex <= m_size.column; ++columnIndex ) {
         result += dat[ (row-1) * m_size.column + columnIndex-1 ];
+    }
+
+    return result;
+}
+
+template<typename T>
+Matrix<T> Matrix<T>::exp()
+{
+    Matrix<T> result( m_size );
+
+    for( size_t i = 0; i < dat.size(); ++i ) {
+        result.dat[i] = ::exp( dat[i] );
     }
 
     return result;
